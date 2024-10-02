@@ -1,0 +1,102 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Página Principal - Aplicaciones Fluxor</title>
+    <link rel="stylesheet" href="../Chat-Bot/chatbot.css">
+    <script src="../Chat-Bot/chatbot.js" defer></script>
+    <!-- Vincular la hoja de estilos principal -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Vincular la librería XLSX (si es necesaria para la página principal) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Encabezado -->
+    <header>
+        <h1>Fluxor</h1>
+        <button class="dark-mode-btn" id="darkModeBtn" aria-label="Cambiar Modo">🌙</button>
+    </header>    
+
+    <!-- Sección Hero -->
+    <section id="home" class="hero">
+        <div class="hero-text">
+            <h1>Bienvenido a Fluxor</h1>
+            <p>Soluciones tecnológicas que simplifican tus operaciones.</p>
+            <button id="learn-more" class="primary-btn">Descubre Más</button>
+        </div>
+    </section>
+
+    <!-- Sección de Login -->
+    <section id="login-section" class="login-section">
+        <h2>Iniciar Sesión</h2>
+        <div class="login-form">
+            <input type="text" id="usernameInput" placeholder="Usuario">
+            <input type="password" id="passwordInput" placeholder="Contraseña">
+            <button class="primary-btn">Ingresar</button>
+            <div id="loginStatus" class="login-status"></div>
+        </div>
+    </section>
+
+    <!-- Sección del Panel de Control -->
+    <section id="dashboard-section" class="dashboard-section" style="display: none;">
+        <h2>Nuestras Herramientas</h2>
+        <div class="tool-grid">
+            <!-- Herramienta 1: Ajuste FCI -->
+            <div class="tool">
+                <h3>Ajuste FCI</h3>
+                <p>Calcula la valuación impositiva de los FCI utilizando el método FIFO.</p>
+                <button class="primary-btn" onclick="abrirAjusteFCI()">Ajuste FCI</button>
+            </div>
+            <!-- Herramienta 2: La Pampa XML -->
+            <div class="tool">
+                <h3>La Pampa Mínimos</h3>
+                <p>Revisa los mínimos del XML de La Pampa y corrige en caso de que el impuesto percibido sea menor al mínimo.</p>
+                <button class="primary-btn" onclick="abrirLaPampaMinimos()">La Pampa Mínimos</button>
+            </div>
+            <!-- Herramienta 3: Limpiador de caracteres -->
+            <div class="tool">
+                <h3>Elimina caracteres</h3>
+                <p>Esta aplicación permite cargar archivos y procesarlos para eliminar caracteres especiales según tus preferencias.</p>
+                <button class="primary-btn" onclick="abrirlimpiadordecaracteres()">Limpiador de caracteres</button>
+            </div>            
+            <!-- Herramienta 4: Prorrateo CF -->
+            <div class="tool">
+                <h3>Prorrateo CF</h3>
+                <p>Clasifica las facturas segun al computabilida del Credito Fiscal.</p>
+                <button class="primary-btn" onclick="abrirprorateocf()">Prorrateo CF</button>
+            </div> 
+            <!-- Puedes añadir más herramientas aquí siguiendo el mismo formato -->
+        </div>
+        <!-- Modal del Chatbot -->
+<div id="chatbotModal" class="chatbot-modal">
+    <div class="chatbot-modal-content">
+        <span class="chatbot-close">&times;</span>
+        <div class="chatbot-header">
+            <h2>Fluxor Chatbot</h2>
+        </div>
+        <div class="chatbot-body">
+            <div id="chatbot-messages" class="chatbot-messages"></div>
+            <input type="text" id="chatbot-input" class="chatbot-input" placeholder="Escribe tu mensaje...">
+            <button id="chatbot-send" class="chatbot-send-btn">Enviar</button>
+        </div>
+    </div>
+</div>
+        <button class="logout-btn">Cerrar Sesión</button>
+    </section>
+        <!-- Botón para abrir el chatbot -->
+        <button id="openChatbotBtn" class="open-chatbot-btn">Abrir Chatbot</button>
+
+    <!-- Contenedor para mensajes de éxito -->
+    <div id="successMessageContainer"></div>
+   
+    <footer>
+        <p>&copy; 2024 Fluxor. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="scripts.js"></script>
+</body>
+</html>

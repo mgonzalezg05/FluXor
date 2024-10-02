@@ -1,0 +1,292 @@
+/* styles.css */
+/* ========================================
+   Variables CSS
+======================================== */
+:root {
+    --primary-color: #0070c9;
+    --primary-hover: #0056b3;
+    --background-color: #f7f7f7;
+    --text-color: #333;
+    --secondary-color: #666;
+    --white-color: #fff;
+    --modal-background: rgba(0, 0, 0, 0.5);
+    --section-padding: 60px 20px;
+    --btn-padding: 10px 30px;
+    --border-radius: 10px;
+    --transition-speed: 0.3s;
+    --table-header-background-color: #e0e0e0; /* Fondo de las cabeceras */
+}
+
+/* ========================================
+   Estilos Generales
+======================================== */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+header {
+    background-color: var(--white-color);
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h1, h2, h3 {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.primary-btn {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    color: var(--white-color);
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 30px;
+    padding: var(--btn-padding);
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+}
+
+.primary-btn:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+.logout-btn {
+    background-color: #5a020b;
+    color: var(--white-color);
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+    margin-top: 20px;
+}
+
+.logout-btn:hover {
+    background-color: #490108;
+    transform: translateY(-2px);
+}
+/* ========================================
+   Hero Section
+======================================== */
+.hero {
+    background-color: var(--background-color);
+    text-align: center;
+    padding: 100px 20px;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+.hero-text h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 3rem;
+    color: var(--text-color);
+    margin-bottom: 20px;
+    transition: color var(--transition-speed) ease;
+}
+
+.hero-text p {
+    font-size: 1.5rem;
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+}
+
+.primary-btn {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    color: var(--white-color);
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 30px;
+    padding: var(--btn-padding);
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+}
+
+.primary-btn:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+/* ========================================
+   Sección de Login
+======================================== */
+.login-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--section-padding);
+}
+
+.login-form {
+    background-color: var(--white-color);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: 100%;
+    padding: 12px 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: border-color var(--transition-speed) ease;
+}
+
+.login-form input[type="text"]:focus,
+.login-form input[type="password"]:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.login-status {
+    margin-top: 10px;
+    font-weight: 500;
+    color: red;
+}
+
+/* ========================================
+   Panel de Control
+======================================== */
+.dashboard-section {
+    padding: var(--section-padding);
+    background-color: #f1f1f1;
+    text-align: center;
+}
+
+.tool-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+.tool {
+    background-color: var(--white-color);
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    flex: 1 1 250px; /* Ajusta el tamaño base según sea necesario */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box; /* Asegura que padding y border se incluyan en el tamaño total */
+    height: 300px; /* Establece una altura fija para todas las casillas */
+}
+
+.tool:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.tool h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    flex-shrink: 0; /* Evita que el título se encoja */
+}
+
+.tool p {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+    flex-grow: 1; /* Permite que el párrafo ocupe el espacio restante */
+}
+
+/* ========================================
+   Mensajes de Éxito
+======================================== */
+.success-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #28a745;
+    color: var(--white-color);
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 1001;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+}
+
+/* ========================================
+   Responsividad
+======================================== */
+@media (max-width: 768px) {
+    .tool-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-form, .tool {
+        width: 90%;
+    }
+}
+/* ========================================
+   Footer
+======================================== */
+footer {
+    background-color: var(--background-color);
+    padding: 30px 20px;
+    text-align: center;
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+}
+/* Modo Oscuro */
+[data-theme="dark"] {
+    --background-color: var(--dark-background);
+    --text-color: var(--dark-text);
+    --secondary-color: #aaa;
+    --modal-background: rgba(255, 255, 255, 0.1);
+}
+header {
+    background-color: var(--white-color);
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    transition: background-color var(--transition-speed);
+}
+
+[data-theme="dark"] header {
+    background-color: #1e1e1e;
+}
+/* Estilo para el botón de apertura del chatbot */
+.open-chatbot-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.open-chatbot-btn:hover {
+    background-color: #0056b3;
+}

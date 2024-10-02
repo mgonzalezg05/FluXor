@@ -1,0 +1,289 @@
+/* styles.css */
+
+/* ========================================
+   Variables CSS de Fluxor
+======================================== */
+:root {
+    --primary-color: #0070c9;
+    --primary-hover: #0056b3;
+    --background-color: #f7f7f7;
+    --text-color: #333;
+    --secondary-color: #666;
+    --white-color: #fff;
+    --modal-background: rgba(0, 0, 0, 0.5);
+    --section-padding: 60px 20px;
+    --btn-padding: 10px 30px;
+    --border-radius: 10px;
+    --transition-speed: 0.5s;
+    --table-header-background-color: #e0e0e0;
+}
+
+/* ========================================
+   Estilos Generales de Fluxor
+======================================== */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+header {
+    background-color: var(--white-color);
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h1, h2, h3 {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.primary-btn {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    color: var(--white-color);
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 30px;
+    padding: var(--btn-padding);
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+}
+
+.primary-btn:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+.secondary-btn {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    color: var(--white-color);
+    background-color: var(--secondary-color);
+    border: none;
+    border-radius: 30px;
+    padding: var(--btn-padding);
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+}
+
+.secondary-btn:hover {
+    background-color: #555; /* Un color más oscuro que --secondary-color */
+    transform: translateY(-2px);
+}
+
+/* Contenedor Principal */
+.container {
+    width: 90%;
+    max-width: 1300px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Secciones */
+#uploadSection,
+#summarySection,
+#customRulesSection,
+#providersSection,
+#outputSection {
+    background-color: var(--white-color);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+/* Etiquetas y Entradas */
+label {
+    display: block;
+    margin: 15px 0 5px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+input[type="text"],
+select,
+input[type="file"],
+textarea {
+    width: 100%;
+    padding: 12px 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: border-color var(--transition-speed) ease;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+/* Tablas */
+.table-wrapper {
+    max-height: 300px; /* Ajusta este valor según la altura de tus filas */
+    overflow-y: auto;
+}
+/* Específico para la tabla de Resumen */
+#summarySection .table-wrapper {
+    max-height: 400px; /* Ajusta este valor según tus necesidades */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: fixed;
+}
+
+th, td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+    word-wrap: break-word;
+}
+
+th {
+    background-color: var(--table-header-background-color);
+    font-weight: 600;
+}
+
+/* Botones de Acción */
+.action-btn {
+    background-color: #ff9800;
+    margin-right: 5px;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 1.2rem; /* Ajustar tamaño si es necesario */
+    color: var(--white-color);
+    border: none;
+    cursor: pointer;
+    transition: opacity var(--transition-speed) ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-btn.delete {
+    background-color: #f44336;
+}
+
+.action-btn.edit {
+    background-color: #4caf50;
+}
+
+.action-btn i {
+    margin-right: 0; /* Eliminar el margen si solo hay icono */
+}
+
+.action-btn:hover {
+    opacity: 0.8;
+}
+
+/* Modales */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--modal-background);
+    overflow: auto;
+}
+
+.modal-content {
+    background-color: var(--white-color);
+    margin: 5% auto;
+    padding: 30px;
+    border: 1px solid #ddd;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 25px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #f44336;
+}
+
+/* Indicador de Carga */
+.loading {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    animation: spin 2s linear infinite;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Controles de Tabla */
+.table-controls {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.table-controls input[type="text"] {
+    width: auto;
+    flex: 1;
+    margin-left: 10px;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-content {
+        width: 90%;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .table-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .table-controls input[type="text"] {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+}

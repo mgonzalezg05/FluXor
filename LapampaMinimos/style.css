@@ -1,0 +1,164 @@
+/* Variables CSS para facilitar la personalización */
+:root {
+    --primary-color: #1f78d1;
+    --secondary-color: #f44336;
+    --background-color: #f5f5f5;
+    --text-color: #333;
+    --button-disabled-color: #ccc;
+    --message-success-color: #4CAF50;
+    --message-error-color: #f44336;
+    --loading-color: #1f78d1;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+  
+  h1, h2 {
+    color: var(--primary-color);
+  }
+  
+  label {
+    display: block;
+    margin: 15px 0 5px;
+    font-weight: bold;
+  }
+  
+  input[type="file"],
+  input[type="number"] {
+    margin-bottom: 20px;
+    padding: 8px;
+    width: 80%;
+    max-width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .min-tax-container {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+  
+  button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover:not(:disabled) {
+    background-color: #155a9c; /* Darker shade manually set */
+  }
+  
+  button:disabled {
+    background-color: var(--button-disabled-color);
+    cursor: not-allowed;
+  }
+  
+  a {
+    display: inline-block;
+    margin-top: 20px;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  #clearBtn {
+    background-color: var(--secondary-color);
+    margin-top: 30px;
+  }
+  
+  .loading {
+    margin-top: 10px;
+    color: var(--loading-color);
+    font-style: italic;
+  }
+  
+  .message {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .message.success {
+    background-color: var(--message-success-color);
+    color: white;
+  }
+  
+  .message.error {
+    background-color: var(--message-error-color);
+    color: white;
+  }
+  
+  /* Media Queries para dispositivos móviles */
+  @media (max-width: 600px) {
+    .container {
+      padding: 20px;
+      margin: 20px;
+    }
+  
+    button {
+      width: 100%;
+      margin: 10px 0;
+    }
+  
+    a {
+      width: 100%;
+      display: block;
+    }
+  
+    input[type="number"],
+    input[type="file"] {
+      width: 100%;
+      max-width: none;
+    }
+  }
+  
+  #optionsSection, #minTaxSection, #excelSection {
+    margin-top: 20px;
+  }
+  
+  .loading {
+    margin-top: 10px;
+    color: var(--loading-color);
+    font-style: italic;
+  }
+  
+  .message {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .message.success {
+    background-color: var(--message-success-color);
+    color: white;
+  }
+  
+  .message.error {
+    background-color: var(--message-error-color);
+    color: white;
+  }
+  

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicación Limpiadora de Caracteres</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Encabezado -->
+    <header>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#" id="aboutLink">Nosotros</a></li>
+                <li><a href="#">Servicios</a></li>
+                <li><a href="#">Contacto</a></li>
+            </ul>
+        </nav>
+        <div class="user-info">
+            <span id="welcome-message">Bienvenido</span>
+            <button class="login-btn" id="loginBtn">Iniciar Sesión</button>
+            <button class="logout-btn" id="logoutBtn" style="display: none;">Cerrar Sesión</button>
+            <button class="dark-mode-btn" id="darkModeBtn" aria-label="Cambiar Modo">🌙</button>
+        </div>
+    </header>
+
+    <!-- Sección Principal -->
+    <main>
+        <section id="app-section" class="about-section">
+            <h2>Limpiador de Caracteres Especiales y Símbolos</h2>
+            <p>Esta aplicación permite cargar archivos y procesarlos para eliminar caracteres especiales según tus preferencias.</p>
+
+            <!-- Carga de Archivos -->
+            <div class="file-upload">
+                <input type="file" id="fileInput" accept=".csv,.txt,.json">
+                <button class="primary-btn" id="processBtn" disabled>Procesar archivo</button>
+                <button class="primary-btn" id="reprocessBtn" style="display:none;">Reprocesar archivo</button>
+                <button class="primary-btn" id="clearBtn" style="display:none;">Limpiar</button>
+            </div>
+
+            <!-- Previsualización del Archivo -->
+            <div class="file-preview" style="display: none;">
+                <h3>Previsualización del Archivo:</h3>
+                <textarea id="previewArea" rows="5" readonly></textarea>
+            </div>
+
+            <!-- Selección de Caracteres para No Eliminar -->
+            <div class="char-selection">
+                <h3>Selecciona los caracteres que no deseas eliminar:</h3>
+                <label><input type="checkbox" id="keepSpaces" checked> Espacios</label>
+                <label><input type="checkbox" id="keepCommas" checked> Comas</label>
+                <label><input type="checkbox" id="keepSemicolons" checked> Puntos y comas</label>
+                <label><input type="checkbox" id="keepSlashes" checked> Barras "/"</label>
+                
+                <!-- Nueva Sección para Caracteres Adicionales -->
+                <div class="additional-chars">
+                    <label for="additionalChars">Agregar caracteres adicionales:</label>
+                    <input type="text" id="additionalChars" placeholder="Ingrese caracteres" aria-label="Agregar caracteres adicionales">
+                </div>
+            </div>
+
+            <!-- Nueva Sección: Reemplazar Caracteres -->
+            <div class="replace-section">
+                <h3>Reemplazar Caracteres:</h3>
+                <div id="replacementRulesContainer">
+                    <!-- Las reglas de reemplazo se agregarán aquí dinámicamente -->
+                </div>
+                <button class="secondary-btn" id="addReplacementBtn">Agregar Reemplazo</button>
+            </div>
+
+            <!-- Sección de Resultados -->
+            <textarea id="outputArea" rows="10" readonly></textarea>
+            <button class="primary-btn" id="downloadBtn" style="display:none;">Descargar archivo</button>
+            <p id="statusMessage" aria-live="polite"></p>
+        </section>
+    </main>
+
+    <!-- Modal de Login -->
+    <div id="loginModal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="loginTitle">
+        <div class="modal-content">
+            <span class="close-button" id="closeLoginModal" aria-label="Cerrar">&times;</span>
+            <h2 id="loginTitle">Iniciar Sesión</h2>
+            <input type="text" id="usernameInput" placeholder="Usuario" aria-label="Usuario">
+            <input type="password" id="loginPasswordInput" placeholder="Contraseña" aria-label="Contraseña">
+            <button class="primary-btn" id="loginButton">Ingresar</button>
+            <div id="loginStatus" role="alert"></div>
+        </div>
+    </div>
+
+    <!-- Modal de Nosotros -->
+    <div id="aboutModal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="aboutTitle">
+        <div class="modal-content">
+            <span class="close-button" id="closeAboutModal" aria-label="Cerrar">&times;</span>
+            <h2 id="aboutTitle">Nosotros</h2>
+            <div class="modal-body">
+                <p>
+                    En 2017, un grupo de jóvenes visionarios fundó Fluxor con un objetivo claro: revolucionar la manera en que las empresas gestionan sus operaciones mediante soluciones tecnológicas avanzadas. Hoy, nuestra misión sigue siendo la misma: acompañar a las empresas en su camino hacia la eficiencia, utilizando la inteligencia artificial y la innovación tecnológica como nuestras principales herramientas.
+                </p>
+                <p>
+                    Nuestro equipo está compuesto por profesionales interdisciplinarios con experiencia en diversas áreas como desarrollo de software, automatización, análisis de datos, finanzas, contabilidad y tributación. Esta combinación única de conocimientos nos permite ofrecer soluciones integrales, que no solo optimizan procesos, sino que también abordan las complejidades financieras y regulatorias de nuestros clientes.
+                </p>
+                <p>
+                    A través del uso de inteligencia artificial, anticipamos problemas y ofrecemos respuestas inteligentes que mejoran la eficiencia operativa, reducen costos y aseguran el cumplimiento tributario. Trabajamos codo a codo con nuestros clientes, diseñando soluciones personalizadas que se alinean con sus desafíos específicos, con el objetivo de liberar a las empresas para que se concentren en lo que realmente importa: crecer, innovar y liderar en su sector.
+                </p>
+                <p>
+                    En Fluxor, creemos firmemente que la tecnología no solo potencia las capacidades humanas, sino que también puede ser una herramienta clave para transformar la gestión operativa, financiera y tributaria de las empresas, garantizando una mejor toma de decisiones y un control más eficiente de los recursos.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pie de Página -->
+    <footer>
+        &copy; 2024 Fluxor. Todos los derechos reservados.
+    </footer>
+
+    <!-- Librerías y Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js" integrity="sha512-5Il5D+KnDPmGdy7z30j6kqXZsJDY2wex27R5ZZQHzpYaMjYGHo0vUQnzTn9M6NEXWsvAVJX6UzQlYyG9trnQyg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="app.js"></script>
+</body>
+</html>

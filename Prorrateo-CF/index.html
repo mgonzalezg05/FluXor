@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clasificación de Facturas - Fluxor</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Librería para exportar a Excel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pO3xIGp5NJ1cWVbLx2hzfoXz7XriU+VHeoxepYAAJTSRPOlCU9A0p60s0h5iGVuD+q6Yd1I1rAfjNkHRXtyFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <header>
+        <h1>Fluxor</h1>
+    </header>
+
+    <div class="container">
+        <h2>Clasificación de Facturas de Compras</h2>
+        
+        <!-- Sección de Carga de Archivos -->
+        <div id="uploadSection">
+            <label for="fileInput">Cargar archivo Excel:</label>
+            <input type="file" id="fileInput" accept=".xlsx">
+            <button id="processBtn" class="primary-btn" disabled>Procesar Facturas</button>
+            <button id="exportBtn" class="primary-btn" disabled>Exportar Resultados</button>
+            <button id="clearBtn" class="primary-btn">Limpiar</button>
+            <!-- Indicador de Carga -->
+            <div id="loadingIndicator" class="loading" style="display: none;">
+                <div class="spinner"></div>
+                <span>Procesando...</span>
+            </div>
+        </div>
+
+        <!-- Sección de Resumen de Facturas -->
+        <div id="summarySection">
+            <h2>Resumen de Facturas</h2>
+            <div class="table-controls">
+                <button id="exportSummaryBtn" class="primary-btn">Exportar Resumen</button>
+            </div>
+            <div class="table-wrapper">
+                <table id="summaryTable">
+                    <thead>
+                        <tr>
+                            <th>Categoría</th>
+                            <th>Directo</th>
+                            <th>Común</th>
+                            <th>No Computable</th>
+                            <th>No Clasificado</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Resumen de facturas aparecerá aquí -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Sección de Reglas de Clasificación Personalizadas -->
+        <div id="customRulesSection">
+            <h2>Reglas de Clasificación Personalizadas</h2>
+            <button id="toggleRulesBtn" class="secondary-btn">Ocultar Tabla</button>
+            <div class="table-controls">
+                <button id="addRuleBtn" class="primary-btn">Agregar Regla</button>
+                <button id="importRulesBtn" class="primary-btn">Importar Reglas</button>
+                <button id="exportRulesBtn" class="primary-btn">Exportar Reglas</button>
+                <input type="text" id="searchRules" placeholder="Buscar en reglas...">
+            </div>
+            <div class="table-wrapper">
+                <table id="rulesTable">
+                    <thead>
+                        <tr>
+                            <th>Columna</th>
+                            <th>Condición</th>
+                            <th>Valor</th>
+                            <th>Categoría</th>
+                            <th>Computabilidad</th>
+                            <th>Prorrateo</th>
+                            <th>Comentarios</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Reglas personalizadas agregadas aparecerán aquí -->
+                    </tbody>
+                </table>
+            </div>
+            <!-- Input para importar reglas -->
+            <input type="file" id="importRulesInput" accept=".xlsx" style="display: none;">
+        </div>
+
+        <!-- Sección de Gestión de Proveedores -->
+        <div id="providersSection">
+            <h2>Gestión de Proveedores</h2>
+            <button id="toggleProvidersBtn" class="secondary-btn">Ocultar Tabla</button>
+            <div class="table-controls">
+                <button id="addProviderBtn" class="primary-btn">Agregar Proveedor</button>
+                <button id="importProvidersBtn" class="primary-btn">Importar Proveedores</button>
+                <button id="exportProvidersBtn" class="primary-btn">Exportar Proveedores</button>
+                <input type="text" id="searchProviders" placeholder="Buscar en proveedores...">
+            </div>
+            <div class="table-wrapper">
+                <table id="providersTable">
+                    <thead>
+                        <tr>
+                            <th>Nombre del Proveedor</th>
+                            <th>Condición</th>
+                            <th>Valor</th>
+                            <th>Categoría</th>
+                            <th>Computabilidad</th>
+                            <th>Prorrateo</th>
+                            <th>Comentarios</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Proveedores agregados aparecerán aquí -->
+                    </tbody>
+                </table>
+            </div>
+            <!-- Input para importar proveedores -->
+            <input type="file" id="importProvidersInput" accept=".xlsx" style="display: none;">
+        </div>
+
+        <!-- Sección de Resultados -->
+        <div id="outputSection">
+            <h2>Facturas Clasificadas</h2>
+            <div class="table-wrapper"></div>
+            <table id="facturasTable">
+                <thead>
+                    <tr>
+                        <th>Proveedor</th>
+                        <th>Descripción</th>
+                        <th>Categoría</th>
+                        <th>Computabilidad</th>
+                        <th>Prorrateo</th>
+                        <th>Comentarios</th>
+                        <th>Saldo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Facturas procesadas aparecerán aquí -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer>
+        <button id="aboutBtn" class="primary-btn">Nosotros</button>
+    </footer>
+
+    <!-- Modal 'Nosotros' -->
+    <div id="aboutModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Sobre Fluxor</h2>
+            <p>Fluxor es una empresa dedicada a transformar la gestión operativa, financiera y tributaria de las empresas...</p>
+        </div>
+    </div>
+
+    <!-- Modal para Agregar/Editar Regla -->
+    <div id="addRuleModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="ruleModalTitle">Agregar Regla de Clasificación</h2>
+            <form>
+                <label for="ruleColumn">Columna:</label>
+                <select id="ruleColumn">
+                    <option value="">Seleccione una columna</option>
+                    <option value="Fecha Contable">Fecha Contable</option>
+                    <option value="Proveedor">Proveedor</option>
+                    <option value="Número de Factura/Cheque">Número de Factura/Cheque</option>
+                    <option value="Débito Contabilizado">Débito Contabilizado</option>
+                    <option value="Crédito Contabilizado">Crédito Contabilizado</option>
+                    <option value="Descripción">Descripción</option>
+                    <option value="Fecha Factura/Pago">Fecha Factura/Pago</option>
+                    <option value="Saldo">Saldo</option>
+                </select>
+
+                <label for="ruleCondition">Condición:</label>
+                <input type="text" id="ruleCondition" placeholder="Ej. Comienza con">
+
+                <label for="ruleValue">Valor:</label>
+                <input type="text" id="ruleValue" placeholder="Valor a buscar">
+
+                <label for="ruleCategory">Categoría:</label>
+                <input type="text" id="ruleCategory" placeholder="Categoría asignada">
+
+                <label for="ruleComputability">Computabilidad:</label>
+                <select id="ruleComputability">
+                    <option value="">Seleccione una opción</option>
+                    <option value="Directo">Directo</option>
+                    <option value="Común">Común</option>
+                    <option value="No Computable">No Computable</option>
+                </select>
+
+                <label for="ruleProrate">Prorrateo:</label>
+                <select id="ruleProrate">
+                    <option value="">Seleccione un prorrateo</option>
+                    <option value="GENERAL">GENERAL</option>
+                    <option value="EMISION">EMISION</option>
+                    <option value="DIRECTO">DIRECTO</option>
+                </select>
+
+                <label for="ruleComments">Comentarios:</label>
+                <textarea id="ruleComments" placeholder="Comentarios adicionales"></textarea>
+
+                <button type="button" id="saveRuleBtn">Guardar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Agregar/Editar Proveedor -->
+    <div id="addProviderModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="providerModalTitle">Agregar Proveedor</h2>
+            <form>
+                <label for="providerName">Nombre del Proveedor:</label>
+                <input type="text" id="providerName" placeholder="Nombre">
+
+                <label for="providerCondition">Condición:</label>
+                <input type="text" id="providerCondition" placeholder="Ej. Comienza con">
+
+                <label for="providerValue">Valor:</label>
+                <input type="text" id="providerValue" placeholder="Valor a buscar">
+
+                <label for="providerCategory">Categoría:</label>
+                <input type="text" id="providerCategory" placeholder="Categoría asignada">
+
+                <label for="providerComputability">Computabilidad:</label>
+                <select id="providerComputability">
+                    <option value="">Seleccione una opción</option>
+                    <option value="Directo">Directo</option>
+                    <option value="Común">Común</option>
+                    <option value="No Computable">No Computable</option>
+                </select>
+
+                <label for="providerProrate">Prorrateo:</label>
+                <select id="providerProrate">
+                    <option value="">Seleccione un prorrateo</option>
+                    <option value="GENERAL">GENERAL</option>
+                    <option value="EMISION">EMISION</option>
+                    <option value="DIRECTO">DIRECTO</option>
+                </select>
+
+                <label for="providerComments">Comentarios:</label>
+                <textarea id="providerComments" placeholder="Comentarios adicionales"></textarea>
+
+                <button type="button" id="saveProviderBtn">Guardar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

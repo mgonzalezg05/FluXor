@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Conversión XML - Excel</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Conversión XML - Excel</h1>
+    
+    <!-- Sección para cargar XML -->
+    <section>
+      <h2>Cargar archivo XML</h2>
+      <label for="fileInputXML">Selecciona un archivo XML:</label>
+      <input type="file" id="fileInputXML" accept=".xml">
+    </section>
+    
+    <!-- Opciones después de cargar XML -->
+    <section id="optionsSection" style="display: none;">
+      <h2>Opciones</h2>
+      <button id="reviewBtn" disabled>Revisar y Aplicar Impuesto Mínimo</button>
+      <button id="convertToExcelBtn" disabled>Convertir a Excel</button>
+    </section>
+
+    <!-- Sección para revisar y aplicar impuesto mínimo -->
+    <section id="minTaxSection" style="display: none;">
+      <h2>Aplicar Impuesto Mínimo</h2>
+      <label for="minTaxInput">Impuesto Mínimo:</label>
+      <input type="number" id="minTaxInput" min="0" step="0.01" placeholder="Ingresa el impuesto mínimo">
+      <button id="processMinTaxBtn">Procesar XML</button>
+      <div id="minTaxProcessing" class="loading" style="display: none;">Procesando XML...</div>
+      <div id="minTaxResult" style="display: none;"></div>
+      <button id="exportProcessedXMLBtn" style="display: none;">Exportar XML Procesado</button>
+    </section>
+    
+    <!-- Sección para convertir Excel a XML -->
+    <section id="excelSection" style="display: none;">
+      <h2>Convertir Excel a XML</h2>
+      <label for="fileInputExcel">Selecciona un archivo Excel (.xlsx):</label>
+      <input type="file" id="fileInputExcel" accept=".xlsx">
+      <button id="convertToXMLBtn" disabled>Convertir a XML</button>
+      <div id="excelProcessing" class="loading" style="display: none;">Procesando Excel...</div>
+      <a id="downloadXMLLink" style="display: none;">Descargar XML</a>
+      <button id="exportXMLBtn" style="display: none;">Exportar XML</button>
+    </section>
+    
+    <!-- Botón para limpiar el formulario -->
+    <button id="clearBtn">Limpiar Formulario</button>
+    
+    <!-- Área para mostrar mensajes de error o éxito -->
+    <div id="message" class="message" style="display: none;"></div>
+  </div>
+
+  <!-- Librerías y Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

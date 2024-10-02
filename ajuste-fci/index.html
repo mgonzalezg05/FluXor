@@ -1,0 +1,227 @@
+<!-- ajuste-fci/index.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+     <!-- Vincular el archivo CSS de Ajuste FCI -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Vincular la librería XLSX -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+</head>
+<body>
+
+    <!-- Encabezado de Ajuste FCI -->
+
+    <!-- Contenido de la Aplicación Ajuste FCI -->
+    <!-- (Incluye todas las secciones y funcionalidades que ya tienes) -->
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>AJUSTE FCI</title>
+        <!-- Vincular el archivo CSS -->
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+    
+        <!-- Encabezado -->
+        <header>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="#">Nosotros</a></li>
+                    <li><a href="#">Servicios</a></li>
+                    <li><a href="#">Contacto</a></li>
+                </ul>
+            </nav>
+        </header>
+    
+        <!-- Sección Hero -->
+        <section class="hero">
+            <div class="hero-text">
+                <h1>AJUSTE FCI</h1>
+                <p>Calcula el ajuste por inflación de tus fondos comunes de inversión de manera sencilla.</p>
+                <button class="primary-btn" onclick="scrollToSection('app-section')">Comenzar</button>
+            </div>
+        </section>
+    
+        <!-- Sección Principal de la Aplicación -->
+        <section id="app-section" class="about-section">
+            <!-- Sección de Carga de Archivos -->
+            <h2>Carga de Datos</h2>
+            <div class="file-upload">
+                <input type="file" id="initialBalanceInput" accept=".xlsx, .xls">
+                <button class="primary-btn" onclick="uploadInitialBalance()">Cargar Saldo Inicial</button>
+            </div>
+            <div class="file-upload">
+                <input type="file" id="fileInput" accept=".xlsx, .xls">
+                <button class="primary-btn" onclick="uploadFile()">Cargar Archivo de Datos</button>
+            </div>
+            <div class="file-upload">
+                <input type="file" id="inflationIndicesInput" accept=".xlsx, .xls">
+                <button class="primary-btn" onclick="uploadInflationIndices()">Cargar Índices de Inflación</button>
+            </div>
+    
+            <!-- Botones Adicionales -->
+            <div class="file-upload">
+                <button class="primary-btn" onclick="loadFromLocalStorage()">Cargar Datos Guardados</button>
+                <button class="primary-btn" onclick="deleteData()">Eliminar Datos</button>
+            </div>
+    
+            <!-- Tablas de Datos -->
+            <div class="table-container">
+                <h2>Saldo Inicial</h2>
+                <div class="table-wrapper">
+                    <table id="initialBalanceTable">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Costo</th>
+                                <th>Tipo</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+    
+            <div class="table-container">
+                <h2>Datos del Archivo Importado</h2>
+                <div class="table-wrapper">
+                    <table id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Costo</th>
+                                <th>Tipo</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+    
+            <!-- Botones de Acción -->
+            <div class="action-buttons">
+                <button class="primary-btn" onclick="calculateAndDisplayFIFO()">Calcular ajuste FCI</button>
+                <button class="primary-btn" onclick="calculateInflationAdjustment()">Calcular Ajuste por Inflación</button>
+                <button class="primary-btn" onclick="proceedToExport()">Exportar a Excel</button>
+            </div>
+    
+            <!-- Tablas de Resultados -->
+            <div class="table-container">
+                <h2>Valuación Impositiva FCI</h2>
+                <div class="table-wrapper">
+                    <table id="fifoResultTable">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Cantidad Total</th>
+                                <th>Costo Total</th>
+                                <th>Valor Ajustado por Inflación</th>
+                                <th>Actualización de compras rescatadas</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+    
+            <div class="table-container">
+                <h2>Saldo al Cierre</h2>
+                <div class="table-wrapper">
+                    <table id="closingBalanceTable">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Costo</th>
+                                <th>Tipo</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+    
+            <div class="table-container">
+                <h2>Resultados del Ajuste por Inflación</h2>
+                <div class="table-wrapper">
+                    <table id="inflationResultTable">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Costo Original</th>
+                                <th>Índice</th>
+                                <th>Costo Actualizado</th>
+                                <th>Costo Final</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+    
+        </section>
+    
+        <!-- Contenedor para mensajes de éxito -->
+        <div id="successMessageContainer"></div>
+    
+        <!-- Chatbot -->
+        <button class="chatbot-btn" onclick="toggleChatbox()">
+            <img src="https://i.imgur.com/BoswpJZ.png" alt="Chatbot" class="chatbot-icon">
+        </button>
+        <div class="chatbox" id="chatbox">
+            <div class="chatbox-header">
+                <img src="https://i.imgur.com/BoswpJZ.png" alt="Chatbot" class="chatbox-header-icon">
+                Chatbot Fluxor
+            </div>
+            <div class="chatbox-body" id="chatbox-body">
+                <!-- Mensajes del chatbot aparecerán aquí -->
+            </div>
+            <div class="chatbox-footer">
+                <input type="text" id="chat-input" placeholder="Escribe tu mensaje..." disabled>
+                <button id="send-btn" onclick="sendMessage()" disabled>Enviar</button>
+            </div>
+        </div>
+    
+        <!-- Pie de Página -->
+        <footer>
+            &copy; 2024 Fluxor. Todos los derechos reservados.
+        </footer>
+    
+        <!-- Botones ocultos para descargar formatos de ejemplo -->
+        <button id="download-saldo-inicial" style="display: none;" onclick="downloadSampleInitialBalance()">Descargar Formato Saldo Inicial</button>
+        <button id="download-datos-importados" style="display: none;" onclick="downloadSampleImportedData()">Descargar Formato Datos Importados</button>
+        <button id="download-indices-inflacion" style="display: none;" onclick="downloadSampleInflationIndices()">Descargar Formato Índices de Inflación</button>
+    
+        <!-- Scripts -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+        <script src="app.js"></script>
+    </body>
+    </html>
+    
+    <!-- Botón para regresar a la Página Principal -->
+    <button class="primary-btn" onclick="regresarPrincipal()">Volver a la Página Principal</button>
+
+    <!-- Contenedor para mensajes de éxito -->
+    <div id="successMessageContainer"></div>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+    <script>
+        function regresarPrincipal() {
+            window.open('../index.html', '_blank'); // Abre en una nueva pestaña
+            // Si prefieres abrir en la misma pestaña, usa:
+            // window.location.href = '../index.html';
+        }
+    </script>
+</body>
+</html>

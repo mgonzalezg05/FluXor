@@ -9,7 +9,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pO3xIGp5NJ1cWVbLx2hzfoXz7XriU+VHeoxepYAAJTSRPOlCU9A0p60s0h5iGVuD+q6Yd1I1rAfjNkHRXtyFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Iconos de Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <header>
@@ -54,6 +55,16 @@
                     <tbody>
                         <!-- Resumen de facturas aparecerá aquí -->
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Total General</th>
+                            <th id="totalDirecto">0.00</th>
+                            <th id="totalComun">0.00</th>
+                            <th id="totalNoComputable">0.00</th>
+                            <th id="totalNoClasificado">0.00</th>
+                            <th id="granTotal">0.00</th>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
@@ -99,6 +110,7 @@
                 <button id="addProviderBtn" class="primary-btn">Agregar Proveedor</button>
                 <button id="importProvidersBtn" class="primary-btn">Importar Proveedores</button>
                 <button id="exportProvidersBtn" class="primary-btn">Exportar Proveedores</button>
+                <button id="deleteAllProvidersBtn" class="primary-btn delete-all-btn">Eliminar Todos</button>
                 <input type="text" id="searchProviders" placeholder="Buscar en proveedores...">
             </div>
             <div class="table-wrapper">

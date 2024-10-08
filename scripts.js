@@ -96,6 +96,12 @@ function abrirlimpiadordecaracteres() {
 function abrirprorateocf() {
     window.open('Prorrateo-CF/index.html', '_blank'); // Abre en una nueva pestaña
 }
+/**
+ * Función para abrir la aplicación Cartera de Inversiones en una nueva pestaña.
+ */
+function abrircartera() {
+    window.open('Cartera/index.html', '_blank'); // Abre en una nueva pestaña
+}
 
 /**
  * Función para alternar modo oscuro.

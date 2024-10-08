@@ -45,6 +45,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const toggleProvidersBtn = document.getElementById("toggleProvidersBtn");
     const customRulesSection = document.getElementById("customRulesSection");
     const providersSection = document.getElementById("providersSection");
+    const deleteAllProvidersBtn = document.getElementById("deleteAllProvidersBtn");
+    const totalDirectoEl = document.getElementById("totalDirecto");
+    const totalComunEl = document.getElementById("totalComun");
+    const totalNoComputableEl = document.getElementById("totalNoComputable");
+    const totalNoClasificadoEl = document.getElementById("totalNoClasificado");
+    const granTotalEl = document.getElementById("granTotal");
 
     let classificationRules = [];
     let providers = [];
@@ -57,11 +63,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Inicializar eventos
         initEventListeners();
-
+        // Agregar evento para exportar el resumen
+         exportSummaryBtn.addEventListener("click", exportSummary);
         // Cerrar modales
         closeModals();
     }
-
+    
     // Inicializar eventos
     function initEventListeners() {
         // Carga y procesamiento de archivo Excel
@@ -80,6 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
             summaryTable.innerHTML = "";
             processBtn.disabled = true;
             exportBtn.disabled = true;
+            resetSummaryTotals();
         });
 
         // Exportar resultados a Excel
@@ -105,6 +113,15 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         saveProviderBtn.addEventListener("click", saveProvider);
+
+        // Eliminar todos los proveedores
+        deleteAllProvidersBtn.addEventListener("click", function () {
+            if (confirm("¿Estás seguro de que deseas eliminar todos los proveedores?")) {
+                providers = [];
+                renderProviders();
+                saveProvidersToLocalStorage();
+            }
+        });
 
         // Buscar en tablas
         searchRulesInput.addEventListener("input", function () {
@@ -198,6 +215,15 @@ document.addEventListener("DOMContentLoaded", function () {
         providerProrate.value = "";
         providerComments.value = "";
         saveProviderBtn.onclick = saveProvider;
+    }
+
+    // Función para resetear totales del resumen
+    function resetSummaryTotals() {
+        totalDirectoEl.textContent = "0.00";
+        totalComunEl.textContent = "0.00";
+        totalNoComputableEl.textContent = "0.00";
+        totalNoClasificadoEl.textContent = "0.00";
+        granTotalEl.textContent = "0.00";
     }
 
     // Función para cargar y procesar el archivo Excel
@@ -332,6 +358,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     row.insertCell(3).textContent = factura.computabilidad;
                     row.insertCell(4).textContent = factura.prorrateo;
                     row.insertCell(5).textContent = factura.comentarios;
+                    row.insertCell(6).textContent = factura["Saldo"] || "0.00";
                 });
 
                 // Calcular y renderizar la tabla de resumen
@@ -360,14 +387,19 @@ document.addEventListener("DOMContentLoaded", function () {
     function renderSummaryTable() {
         // Limpiar la tabla de resumen
         summaryTable.innerHTML = "";
+        resetSummaryTotals();
 
         // Calcular los sumatorios
         const summaryData = {};
+        let totalDirecto = 0;
+        let totalComun = 0;
+        let totalNoComputable = 0;
+        let totalNoClasificado = 0;
 
         clasificaciones.forEach(factura => {
             const categoria = factura.categoria || "No Clasificada";
             if (!summaryData[categoria]) {
-                summaryData[categoria] = { "Directo": 0, "Común": 0, "No Computable": 0, "No Clasificado": 0 };
+                summaryData[categoria] = { "Directo": 0, "Común": 0, "No Computable": 0, "No Clasificado": 0, "Total": 0 };
             }
 
             const computabilidad = factura.computabilidad || "No Clasificado";
@@ -375,13 +407,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (computabilidad === "Directo") {
                 summaryData[categoria]["Directo"] += saldo;
+                totalDirecto += saldo;
             } else if (computabilidad === "Común") {
                 summaryData[categoria]["Común"] += saldo;
+                totalComun += saldo;
             } else if (computabilidad === "No Computable") {
                 summaryData[categoria]["No Computable"] += saldo;
+                totalNoComputable += saldo;
             } else {
                 summaryData[categoria]["No Clasificado"] += saldo;
+                totalNoClasificado += saldo;
             }
+            summaryData[categoria]["Total"] += saldo;
         });
 
         // Renderizar la tabla de resumen
@@ -392,7 +429,15 @@ document.addEventListener("DOMContentLoaded", function () {
             row.insertCell(2).textContent = valores["Común"].toFixed(2);
             row.insertCell(3).textContent = valores["No Computable"].toFixed(2);
             row.insertCell(4).textContent = valores["No Clasificado"].toFixed(2);
+            row.insertCell(5).textContent = valores["Total"].toFixed(2);
         }
+
+        // Actualizar los totales en el pie de tabla
+        totalDirectoEl.textContent = totalDirecto.toFixed(2);
+        totalComunEl.textContent = totalComun.toFixed(2);
+        totalNoComputableEl.textContent = totalNoComputable.toFixed(2);
+        totalNoClasificadoEl.textContent = totalNoClasificado.toFixed(2);
+        granTotalEl.textContent = (totalDirecto + totalComun + totalNoComputable + totalNoClasificado).toFixed(2);
     }
 
     // Función para exportar resultados a Excel con la estructura solicitada
@@ -432,16 +477,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Agregar hoja para resumen
         const summaryWsData = [
-            ["Categoría", "Directo", "Común", "No Computable", "No Clasificado"]
+            ["Categoría", "Directo", "Común", "No Computable", "No Clasificado", "Total"]
         ];
 
         // Calcular los sumatorios para el resumen
         const summaryData = {};
+        let totalDirecto = 0;
+        let totalComun = 0;
+        let totalNoComputable = 0;
+        let totalNoClasificado = 0;
 
         clasificaciones.forEach(factura => {
             const categoria = factura.categoria || "No Clasificada";
             if (!summaryData[categoria]) {
-                summaryData[categoria] = { "Directo": 0, "Común": 0, "No Computable": 0, "No Clasificado": 0 };
+                summaryData[categoria] = { "Directo": 0, "Común": 0, "No Computable": 0, "No Clasificado": 0, "Total": 0 };
             }
 
             const computabilidad = factura.computabilidad || "No Clasificado";
@@ -449,13 +498,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (computabilidad === "Directo") {
                 summaryData[categoria]["Directo"] += saldo;
+                totalDirecto += saldo;
             } else if (computabilidad === "Común") {
                 summaryData[categoria]["Común"] += saldo;
+                totalComun += saldo;
             } else if (computabilidad === "No Computable") {
                 summaryData[categoria]["No Computable"] += saldo;
+                totalNoComputable += saldo;
             } else {
                 summaryData[categoria]["No Clasificado"] += saldo;
+                totalNoClasificado += saldo;
             }
+            summaryData[categoria]["Total"] += saldo;
         });
 
         // Agregar filas de resumen
@@ -465,9 +519,20 @@ document.addEventListener("DOMContentLoaded", function () {
                 valores["Directo"].toFixed(2),
                 valores["Común"].toFixed(2),
                 valores["No Computable"].toFixed(2),
-                valores["No Clasificado"].toFixed(2)
+                valores["No Clasificado"].toFixed(2),
+                valores["Total"].toFixed(2)
             ]);
         }
+
+        // Agregar total general
+        summaryWsData.push([
+            "Total General",
+            totalDirecto.toFixed(2),
+            totalComun.toFixed(2),
+            totalNoComputable.toFixed(2),
+            totalNoClasificado.toFixed(2),
+            (totalDirecto + totalComun + totalNoComputable + totalNoClasificado).toFixed(2)
+        ]);
 
         const summaryWs = XLSX.utils.aoa_to_sheet(summaryWsData);
         XLSX.utils.book_append_sheet(wb, summaryWs, "Resumen");
@@ -627,12 +692,6 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        // Verificar si el proveedor ya existe
-        const exists = providers.some(provider => provider.name.toLowerCase() === name.toLowerCase());
-        if (exists) {
-            alert("El proveedor ya existe.");
-            return;
-        }
 
         const newProvider = { name, condition, value, category, computability, prorate, comments };
         providers.push(newProvider);
@@ -725,13 +784,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (!name || !category || !computability || !prorate) {
                 alert("Por favor, complete los campos obligatorios del proveedor.");
-                return;
-            }
-
-            // Verificar si el nuevo nombre del proveedor ya existe (excepto el actual)
-            const exists = providers.some((prov, provIndex) => prov.name.toLowerCase() === name.toLowerCase() && provIndex !== index);
-            if (exists) {
-                alert("El proveedor ya existe.");
                 return;
             }
 
@@ -856,62 +908,121 @@ document.addEventListener("DOMContentLoaded", function () {
         reader.readAsArrayBuffer(file);
     }
 
-    // Función para importar proveedores desde Excel
-    function importProviders(event) {
-        const file = event.target.files[0];
-        if (!file) {
-            return;
+// Función para importar proveedores desde Excel
+function importProviders(event) {
+    const file = event.target.files[0];
+    if (!file) {
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        try {
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const firstSheet = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[firstSheet];
+            const importedProviders = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+            // Validar encabezados
+            const expectedHeaders = ["Nombre del Proveedor", "Condición", "Valor", "Categoría", "Computabilidad", "Prorrateo", "Comentarios"];
+            const fileHeaders = importedProviders[0];
+            const headersMatch = expectedHeaders.every((header, index) => header === fileHeaders[index]);
+
+            if (!headersMatch) {
+                alert("El formato del archivo de proveedores es incorrecto. Asegúrate de que las columnas sean: " + expectedHeaders.join(", "));
+                return;
+            }
+
+            // Procesar proveedores importados
+            for (let i = 1; i < importedProviders.length; i++) {
+                const row = importedProviders[i];
+                if (row.length < expectedHeaders.length) {
+                    continue;
+                }
+
+                const [name, condition, value, category, computability, prorate, comments] = row;
+                if (!name || !category || !computability || !prorate) {
+                    continue;
+                }
+
+                const newProvider = { name, condition, value, category, computability, prorate, comments: comments || "" };
+                providers.push(newProvider);
+            }
+
+            renderProviders();
+            alert("Proveedores importados exitosamente.");
+        } catch (error) {
+            alert("Hubo un error al importar los proveedores: " + error.message + ". Por favor, verifica el formato del archivo.");
+        }
+    };
+    reader.readAsArrayBuffer(file);
+}
+
+// Función para exportar el resumen a Excel
+function exportSummary() {
+    if (clasificaciones.length === 0) {
+        alert("No hay datos para exportar.");
+        return;
+    }
+
+    const wb = XLSX.utils.book_new();
+    const wsData = [
+        ["Categoría", "Directo", "Común", "No Computable", "No Clasificado", "Total"]
+    ];
+
+    // Construir los datos del resumen
+    const summaryData = {};
+    clasificaciones.forEach(factura => {
+        const categoria = factura.categoria || "No Clasificada";
+        if (!summaryData[categoria]) {
+            summaryData[categoria] = { "Directo": 0, "Común": 0, "No Computable": 0, "No Clasificado": 0, "Total": 0 };
         }
 
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            try {
-                const data = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(data, { type: 'array' });
-                const firstSheet = workbook.SheetNames[0];
-                const worksheet = workbook.Sheets[firstSheet];
-                const importedProviders = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+        const computabilidad = factura.computabilidad || "No Clasificado";
+        const saldo = parseFloat(factura["Saldo"]) || 0;
 
-                // Validar encabezados
-                const expectedHeaders = ["Nombre del Proveedor", "Condición", "Valor", "Categoría", "Computabilidad", "Prorrateo", "Comentarios"];
-                const fileHeaders = importedProviders[0];
-                const headersMatch = expectedHeaders.every((header, index) => header === fileHeaders[index]);
+        if (computabilidad === "Directo") {
+            summaryData[categoria]["Directo"] += saldo;
+        } else if (computabilidad === "Común") {
+            summaryData[categoria]["Común"] += saldo;
+        } else if (computabilidad === "No Computable") {
+            summaryData[categoria]["No Computable"] += saldo;
+        } else {
+            summaryData[categoria]["No Clasificado"] += saldo;
+        }
+        summaryData[categoria]["Total"] += saldo;
+    });
 
-                if (!headersMatch) {
-                    alert("El formato del archivo de proveedores es incorrecto. Asegúrate de que las columnas sean: " + expectedHeaders.join(", "));
-                    return;
-                }
-
-                // Procesar proveedores importados
-                for (let i = 1; i < importedProviders.length; i++) {
-                    const row = importedProviders[i];
-                    if (row.length < expectedHeaders.length) {
-                        continue;
-                    }
-
-                    const [name, condition, value, category, computability, prorate, comments] = row;
-                    if (!name || !category || !computability || !prorate) {
-                        continue;
-                    }
-
-                    // Verificar si el proveedor ya existe
-                    const exists = providers.some(provider => provider.name.toLowerCase() === name.toLowerCase());
-                    if (exists) {
-                        continue;
-                    }
-
-                    const newProvider = { name, condition, value, category, computability, prorate, comments: comments || "" };
-                    providers.push(newProvider);
-                }
-
-                renderProviders();
-                alert("Proveedores importados exitosamente.");
-            } catch (error) {
-                alert("Hubo un error al importar los proveedores: " + error.message + ". Por favor, verifica el formato del archivo.");
-            }
-        };
-        reader.readAsArrayBuffer(file);
+    // Agregar filas al wsData
+    for (const [categoria, valores] of Object.entries(summaryData)) {
+        wsData.push([
+            categoria,
+            valores["Directo"].toFixed(2),
+            valores["Común"].toFixed(2),
+            valores["No Computable"].toFixed(2),
+            valores["No Clasificado"].toFixed(2),
+            valores["Total"].toFixed(2)
+        ]);
     }
+
+    // Agregar fila de totales generales
+    wsData.push([
+        "Total General",
+        parseFloat(totalDirectoEl.textContent).toFixed(2),
+        parseFloat(totalComunEl.textContent).toFixed(2),
+        parseFloat(totalNoComputableEl.textContent).toFixed(2),
+        parseFloat(totalNoClasificadoEl.textContent).toFixed(2),
+        parseFloat(granTotalEl.textContent).toFixed(2)
+    ]);
+
+    // Crear la hoja de trabajo y agregarla al libro
+    const ws = XLSX.utils.aoa_to_sheet(wsData);
+    XLSX.utils.book_append_sheet(wb, ws, "Resumen");
+
+    // Escribir el archivo y descargarlo
+    XLSX.writeFile(wb, "Resumen_Facturas.xlsx");
+}
 
     // Inicializar la aplicación
     initializeApp();

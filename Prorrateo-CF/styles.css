@@ -1,8 +1,6 @@
 /* styles.css */
 
-/* ========================================
-   Variables CSS de Fluxor
-======================================== */
+/* Variables CSS */
 :root {
     --primary-color: #0070c9;
     --primary-hover: #0056b3;
@@ -18,9 +16,7 @@
     --table-header-background-color: #e0e0e0;
 }
 
-/* ========================================
-   Estilos Generales de Fluxor
-======================================== */
+/* Estilos Generales */
 body {
     font-family: 'Roboto', sans-serif;
     background-color: var(--background-color);
@@ -72,8 +68,17 @@ h1, h2, h3 {
 }
 
 .secondary-btn:hover {
-    background-color: #555; /* Un color más oscuro que --secondary-color */
+    background-color: #555;
     transform: translateY(-2px);
+}
+
+/* Botón Eliminar Todos */
+.delete-all-btn {
+    background-color: #f44336;
+}
+
+.delete-all-btn:hover {
+    background-color: #d32f2f;
 }
 
 /* Contenedor Principal */
@@ -127,12 +132,8 @@ textarea:focus {
 
 /* Tablas */
 .table-wrapper {
-    max-height: 300px; /* Ajusta este valor según la altura de tus filas */
+    max-height: 300px;
     overflow-y: auto;
-}
-/* Específico para la tabla de Resumen */
-#summarySection .table-wrapper {
-    max-height: 400px; /* Ajusta este valor según tus necesidades */
 }
 
 table {
@@ -160,7 +161,7 @@ th {
     margin-right: 5px;
     border-radius: 5px;
     padding: 5px 10px;
-    font-size: 1.2rem; /* Ajustar tamaño si es necesario */
+    font-size: 1.2rem;
     color: var(--white-color);
     border: none;
     cursor: pointer;
@@ -179,7 +180,7 @@ th {
 }
 
 .action-btn i {
-    margin-right: 0; /* Eliminar el margen si solo hay icono */
+    margin-right: 0;
 }
 
 .action-btn:hover {

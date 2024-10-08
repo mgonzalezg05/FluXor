@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Cartera de Inversiones</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="app.js" defer></script>
+</head>
+<body>
+        <!-- Sección Hero -->
+        <section class="hero">
+            <div class="hero-text">
+                <h1>CARTERA DE INVERSIONES</h1>
+                <p>Maneja tu cartera de inversiones de forma simple y facil.</p>
+                <button class="primary-btn" onclick="scrollToSection('app-section')">Comenzar</button>
+            </div>
+        </section>
+
+    <section id="uploadSection">
+        <h2>Cargar Archivo de Transacciones</h2>
+        <input type="file" id="transactionsInput" accept=".xlsx, .xls">
+        <button onclick="uploadTransactions()">Cargar Transacciones</button>
+    </section>
+    <section id="exchangeRateJsonSection">
+        <h2>Cargar Archivo de Cotizaciones de Tipo de Cambio (JSON)</h2>
+        <input type="file" id="exchangeRatesJsonInput" accept=".json">
+        <button onclick="loadExchangeRatesJson()">Cargar Cotizaciones de Tipo de Cambio desde JSON</button>
+    </section>
+
+    <section id="transactionsSection">
+        <h2>Transacciones Cargadas</h2>
+        <table id="transactionsTable">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Ticker</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Bruto</th>
+                    <th>Costos Mercado</th>
+                    <th>Arancel</th>
+                    <th>Neto</th>
+                    <th>Moneda</th>
+                    <th>Tipo</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <div id="pagination"></div>
+    </section>
+
+    <section id="portfolioSection">
+        <h2>Composición de la Cartera Actual</h2>
+        <button onclick="generatePortfolio()">Generar Cartera</button>
+        <table id="portfolioTable">
+            <thead>
+                <tr>
+                    <th>Ticker</th>
+                    <th>Cantidad</th>
+                    <th>Costo Promedio</th>
+                    <th>Precio Actual</th>
+                    <th>Valor Actual</th>
+                    <th>Ganancia/Pérdida No Realizada</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <section id="realizedGainsSection">
+        <h2>Resultados de Operaciones Finalizadas</h2>
+        <table id="realizedGainsTable">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Ticker</th>
+                    <th>Ganancia/Pérdida Realizada</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <section id="summarySection">
+        <h2>Resumen de Inversiones</h2>
+        <button onclick="showSummary()">Mostrar Resumen</button>
+        <div id="summary"></div>
+    </section>
+
+    <footer>
+        &copy; 2024 Gestor de Inversiones. Todos los derechos reservados.
+    </footer>
+</body>
+</html>

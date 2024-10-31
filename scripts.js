@@ -106,7 +106,7 @@ function abrircartera() {
  * Función para abrir la aplicación Libro IVA Compras en una nueva pestaña.
  */
 function abrirLibroivacompras() {
-    window.open('Libro-iva-compras/index.html', '_blank'); // Abre en una nueva pestaña
+    window.open('./Libro-iva-compras/index.html', '_blank'); // Abre en una nueva pestaña
 }
 /**
  * Función para alternar modo oscuro.

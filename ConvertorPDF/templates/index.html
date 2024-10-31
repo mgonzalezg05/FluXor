@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Convertidor de PDF a Excel</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <h1>Convertidor de PDF a Excel</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="pdf" id="pdfFile" accept=".pdf" required>
+        <button type="button" onclick="uploadFile()">Convertir a Excel</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        async function uploadFile() {
+            const formData = new FormData(document.getElementById('uploadForm'));
+            document.getElementById('result').innerText = 'Procesando...';
+
+            try {
+                const response = await fetch('/convert', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    document.getElementById('result').innerText = `Error: ${errorData.error}`;
+                    return;
+                }
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'output.xlsx';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                document.getElementById('result').innerText = 'Conversión completada. Archivo descargado.';
+            } catch (error) {
+                document.getElementById('result').innerText = 'Error al procesar el archivo.';
+                console.error('Error:', error);
+            }
+        }
+    </script>
+</body>
+</html>
